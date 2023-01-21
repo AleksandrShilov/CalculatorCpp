@@ -15,8 +15,8 @@ my::CreditCalc::CreditCalc(QWidget *parent)
 my::CreditCalc::~CreditCalc() { delete ui_; }
 
 void my::CreditCalc::CheckInputValueCredit(double &amount_credit,
-                                            double &time_credit,
-                                            double &percent_credit) {
+                                           double &time_credit,
+                                           double &percent_credit) {
   QString temp_amount = ui_->lineEdit_loan_amount->text();
   QString temp_time = ui_->lineEdit_loan_term->text();
   QString temp_percent = ui_->lineEdit_rate_credit->text();
@@ -63,9 +63,9 @@ void my::CreditCalc::CheckInputValueCredit(double &amount_credit,
 }
 
 void my::CreditCalc::RecordDifferTable(double &accrued_inter,
-                                        double &amount_credit,
-                                        double const &time_credit,
-                                        double const &percent_credit) {
+                                       double &amount_credit,
+                                       double const &time_credit,
+                                       double const &percent_credit) {
   this->setMinimumWidth(1110);
   this->setMaximumWidth(1110);
   this->resize(1110, 450);
@@ -138,10 +138,10 @@ void my::CreditCalc::RecordDifferTable(double &accrued_inter,
 }
 
 void my::CreditCalc::RecordAnnuities(double &accrued_inter,
-                                      double const &amount_credit,
-                                      double const &time_credit,
-                                      double const &percent_credit,
-                                      double &all_credit, double &month_pay) {
+                                     double const &amount_credit,
+                                     double const &time_credit,
+                                     double const &percent_credit,
+                                     double &all_credit, double &month_pay) {
   this->resize(529, 450);
   controller_->CalcCredit(amount_credit, percent_credit, time_credit, month_pay,
                           accrued_inter, all_credit);

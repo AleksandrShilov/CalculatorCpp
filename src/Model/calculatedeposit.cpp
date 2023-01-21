@@ -1,8 +1,10 @@
 #include "calculatedeposit.h"
 
+namespace my {
+
 // проверка на високосный год
-bool my::CalculateDeposit::CheckingForLeapYear(
-    int const &year, int &temp_number_days_year) const {
+bool CalculateDeposit::CheckingForLeapYear(int const &year,
+                                           int &temp_number_days_year) const {
   temp_number_days_year = 365;
   bool leap_year = false;
   if (year % 4 == 0) {
@@ -19,8 +21,8 @@ bool my::CalculateDeposit::CheckingForLeapYear(
   return leap_year;
 }
 
-double my::CalculateDeposit::CalculateTax(double const &tax_rate,
-                                           double const &accrued_interest) {
+double CalculateDeposit::CalculateTax(double const &tax_rate,
+                                      double const &accrued_interest) {
   double no_tax = 1000000 * 4.25 / 100;
   double tax = 0;
 
@@ -31,7 +33,7 @@ double my::CalculateDeposit::CalculateTax(double const &tax_rate,
 }
 
 // вычисления для "дней" в таблицу
-double my::CalculateDeposit::CalculationByDaysCapital(
+double CalculateDeposit::CalculationByDaysCapital(
     int const &current_year, double const &percent_deposit,
     double const &deposit_amount) {
   int number_days_year;
@@ -45,7 +47,7 @@ double my::CalculateDeposit::CalculationByDaysCapital(
 }
 
 // вычисление начисленных процентов, если в чекбоксе месяц
-double my::CalculateDeposit::CalculatAccruedInterestForMonthWithoutCapitaliz(
+double CalculateDeposit::CalculatAccruedInterestForMonthWithoutCapitaliz(
     int const &temp_year, int const &temp_month, double const &deposit_amount,
     double const &percent_deposit) {
   int const array_year[13] = {0,  31, 28, 31, 30, 31, 30,
@@ -68,7 +70,7 @@ double my::CalculateDeposit::CalculatAccruedInterestForMonthWithoutCapitaliz(
 }
 
 // вычисление начисленных процентов, если в чекбоксе месяц и капитализация
-double my::CalculateDeposit::CalculatAccruedInterestForMonthWithCapitaliz(
+double CalculateDeposit::CalculatAccruedInterestForMonthWithCapitaliz(
     int const &temp_year, int const &temp_month, double const &deposit_amount,
     double const &percent_deposit) {
   int const array_year[13] = {0,  31, 28, 31, 30, 31, 30,
@@ -93,9 +95,9 @@ double my::CalculateDeposit::CalculatAccruedInterestForMonthWithCapitaliz(
 }
 
 // вычисления для "дней" в таблицу без капитализации
-double my::CalculateDeposit::CalculationByDays(int const &current_year,
-                                                double const &percent_deposit,
-                                                double const &deposit_amount) {
+double CalculateDeposit::CalculationByDays(int const &current_year,
+                                           double const &percent_deposit,
+                                           double const &deposit_amount) {
   int number_days_year;
   double result_amount;
   double percent_month;
@@ -107,10 +109,9 @@ double my::CalculateDeposit::CalculationByDays(int const &current_year,
 }
 
 // вычисления для "лет" без капитализации
-double my::CalculateDeposit::CalculatForYears(int const &current_year,
-                                               int const &count_days_month,
-                                               double const &percent_deposit,
-                                               double const &deposit_amount) {
+double CalculateDeposit::CalculatForYears(int const &current_year,
+                                          double const &percent_deposit,
+                                          double const &deposit_amount) {
   int temp_number_days_year;
   double percent_year;
 
@@ -123,10 +124,9 @@ double my::CalculateDeposit::CalculatForYears(int const &current_year,
 }
 
 // вычисления для "дней" без капитализации
-double my::CalculateDeposit::CalculatForDayWithoutCapitalization(
-    int const &placement_period, int const &deposit_month,
-    int const &deposit_year, double const &deposit_amount,
-    double const &percent_deposit) {
+double CalculateDeposit::CalculatForDayWithoutCapitalization(
+    int const &placement_period, int const &deposit_year,
+    double const &deposit_amount, double const &percent_deposit) {
   int temp_year = deposit_year;
   int number_days_year;
   double percent_month = 0;
@@ -138,3 +138,5 @@ double my::CalculateDeposit::CalculatForDayWithoutCapitalization(
 
   return percent_month;
 }
+
+}  // namespace my

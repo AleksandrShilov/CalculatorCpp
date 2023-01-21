@@ -1,12 +1,12 @@
 #include "validate.h"
 
-my::Validation::Validation(std::string const &str)
-    : infix_str_(str), error_("Ok") {
+namespace my {
+
+Validation::Validation(std::string const &str) : infix_str_(str), error_("Ok") {
   ValidationStr();
 }
 
-int my::Validation::ValidationOperators(size_t pos,
-                                         int const &flag_bracket) const {
+int Validation::ValidationOperators(size_t pos) const {
   int res = 0;
   std::string operators = "+-/*^";
   std::string exceptions = "cstalsx(";
@@ -53,7 +53,7 @@ int my::Validation::ValidationOperators(size_t pos,
   return res;
 }
 
-int my::Validation::ValidationZero(size_t pos) const {
+int Validation::ValidationZero(size_t pos) const {
   if (infix_str_[pos] == '0') {
     pos--;
     if (infix_str_[pos] == '/') {
@@ -63,7 +63,7 @@ int my::Validation::ValidationZero(size_t pos) const {
   return 0;
 }
 
-int my::Validation::ValidationBracket(size_t pos, int &flag_bracket) const {
+int Validation::ValidationBracket(size_t pos, int &flag_bracket) const {
   int err = 0;
   std::string exceptions_right = ")+-/*^m";
   std::string exceptions_left = "(+-/*^";
@@ -90,7 +90,7 @@ int my::Validation::ValidationBracket(size_t pos, int &flag_bracket) const {
   return err;
 }
 
-int my::Validation::ValidationDot(size_t pos) const {
+int Validation::ValidationDot(size_t pos) const {
   if (infix_str_[pos] == 46) {
     pos--;
     if (!(infix_str_[pos] > 47 && infix_str_[pos] < 58)) {
@@ -105,7 +105,7 @@ int my::Validation::ValidationDot(size_t pos) const {
   return 0;
 }
 
-int my::Validation::ValidationAsin(size_t &pos) const {
+int Validation::ValidationAsin(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'i') {
@@ -120,7 +120,7 @@ int my::Validation::ValidationAsin(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationAcos(size_t &pos) const {
+int Validation::ValidationAcos(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'o') {
@@ -134,7 +134,7 @@ int my::Validation::ValidationAcos(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationAtan(size_t &pos) const {
+int Validation::ValidationAtan(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'a') {
@@ -148,7 +148,7 @@ int my::Validation::ValidationAtan(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationSinSqrt(size_t &pos) const {
+int Validation::ValidationSinSqrt(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'i') {
@@ -172,7 +172,7 @@ int my::Validation::ValidationSinSqrt(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationCos(size_t &pos) const {
+int Validation::ValidationCos(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'o') {
@@ -186,7 +186,7 @@ int my::Validation::ValidationCos(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationLn(size_t &pos) const {
+int Validation::ValidationLn(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'o') {
@@ -202,7 +202,7 @@ int my::Validation::ValidationLn(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationTan(size_t &pos) const {
+int Validation::ValidationTan(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'a') {
@@ -216,7 +216,7 @@ int my::Validation::ValidationTan(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationMod(size_t &pos) const {
+int Validation::ValidationMod(size_t &pos) const {
   int res = 0;
   pos++;
   if (infix_str_[pos] == 'o') {
@@ -230,7 +230,7 @@ int my::Validation::ValidationMod(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationTrigonometric(size_t &pos) const {
+int Validation::ValidationTrigonometric(size_t &pos) const {
   int res = 0;
   std::string first_character = "aclstm";
   std::string exceptions = ")(+-/*^x.";
@@ -273,14 +273,14 @@ int my::Validation::ValidationTrigonometric(size_t &pos) const {
   return res;
 }
 
-int my::Validation::ValidationStr() {
+int Validation::ValidationStr() {
   int flag_bracket = 0;
   int result = 0;
 
   for (size_t i = 0; i < infix_str_.size(); i++) {
     int flag_trigonometric, flag_operators, flag_zero, flag_dot,
         flag_bracket_err;
-    flag_operators = ValidationOperators(i, flag_bracket);
+    flag_operators = ValidationOperators(i);
     flag_zero = ValidationZero(i);
     flag_bracket_err = ValidationBracket(i, flag_bracket);
     flag_dot = ValidationDot(i);
@@ -324,3 +324,5 @@ int my::Validation::ValidationStr() {
 
   return result;
 }
+
+}  // namespace my

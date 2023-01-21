@@ -1,14 +1,16 @@
 #include "rpn.h"
 
-my::ModelCalc::ModelCalc() : infix_str_(""), result_(0) {}
+namespace my {
 
-std::string my::ModelCalc::CheckInputStr(std::string const &str) const {
+ModelCalc::ModelCalc() : infix_str_(""), result_(0) {}
+
+std::string ModelCalc::CheckInputStr(std::string const &str) const {
   Validation error(str);
   std::string answer = error.GetError();
   return answer;
 }
 
-double my::ModelCalc::Calc(std::string const &str, double x) {
+double ModelCalc::Calc(std::string const &str, double x) {
   infix_str_ = str;
   if (CheckInputStr(infix_str_) == "Ok") {
     my::Parse parse(infix_str_);
@@ -18,10 +20,10 @@ double my::ModelCalc::Calc(std::string const &str, double x) {
   return result_;
 }
 
-void my::ModelCalc::CalcCredit(double const &amount_credit,
-                                double const &percent_credit,
-                                double const &time_credit, double &month_pay,
-                                double &accrued_inter, double &all_credit) {
+void ModelCalc::CalcCredit(double const &amount_credit,
+                           double const &percent_credit,
+                           double const &time_credit, double &month_pay,
+                           double &accrued_inter, double &all_credit) {
   double month_loan_rate = percent_credit / 12 / 100;
   double annuity_ratio =
       (month_loan_rate * pow((1 + month_loan_rate), time_credit)) /
@@ -31,10 +33,10 @@ void my::ModelCalc::CalcCredit(double const &amount_credit,
   accrued_inter = all_credit - amount_credit;
 }
 
-double my::ModelCalc::CalcCreditDif(double const &sum_credit,
-                                     int const &time_credit,
-                                     double const &percent_credit,
-                                     int const &count_pay) {
+double ModelCalc::CalcCreditDif(double const &sum_credit,
+                                int const &time_credit,
+                                double const &percent_credit,
+                                int const &count_pay) {
   double month_pay = 0;
   month_pay = (sum_credit / time_credit) +
               (sum_credit - (sum_credit / time_credit) * count_pay) *
@@ -42,21 +44,21 @@ double my::ModelCalc::CalcCreditDif(double const &sum_credit,
   return month_pay;
 }
 
-double my::ModelCalc::CalculationByDaysCapital(int const &current_year,
-                                                double const &percent_deposit,
-                                                double const &deposit_amount) {
+double ModelCalc::CalculationByDaysCapital(int const &current_year,
+                                           double const &percent_deposit,
+                                           double const &deposit_amount) {
   CalculateDeposit calculatedeposit;
   return calculatedeposit.CalculationByDaysCapital(
       current_year, percent_deposit, deposit_amount);
 }
 
-double my::ModelCalc::CalculateTax(const double &tax_rate,
-                                    const double &accrued_interest) {
+double ModelCalc::CalculateTax(const double &tax_rate,
+                               const double &accrued_interest) {
   CalculateDeposit calculatedeposit;
   return calculatedeposit.CalculateTax(tax_rate, accrued_interest);
 }
 
-double my::ModelCalc::CalculatAccruedInterestForMonthWithoutCapitaliz(
+double ModelCalc::CalculatAccruedInterestForMonthWithoutCapitaliz(
     int const &temp_year, int const &temp_month, double const &deposit_amount,
     double const &percent_deposit) {
   CalculateDeposit calc_deposit;
@@ -64,7 +66,7 @@ double my::ModelCalc::CalculatAccruedInterestForMonthWithoutCapitaliz(
       temp_year, temp_month, deposit_amount, percent_deposit);
 }
 
-double my::ModelCalc::CalculatAccruedInterestForMonthWithCapitaliz(
+double ModelCalc::CalculatAccruedInterestForMonthWithCapitaliz(
     const int &temp_year, const int &temp_month, const double &deposit_amount,
     const double &percent_deposit) {
   CalculateDeposit calc_deposit;
@@ -72,44 +74,41 @@ double my::ModelCalc::CalculatAccruedInterestForMonthWithCapitaliz(
       temp_year, temp_month, deposit_amount, percent_deposit);
 }
 
-double my::ModelCalc::CalculationByDays(const int &current_year,
-                                         const double &percent_deposit,
-                                         const double &deposit_amount) {
+double ModelCalc::CalculationByDays(const int &current_year,
+                                    const double &percent_deposit,
+                                    const double &deposit_amount) {
   CalculateDeposit calc_deposit;
   return calc_deposit.CalculationByDays(current_year, percent_deposit,
                                         deposit_amount);
 }
 
-double my::ModelCalc::CalculatForYears(const int &current_year,
-                                        const int &count_days_month,
-                                        const double &percent_deposit,
-                                        const double &deposit_amount) {
+double ModelCalc::CalculatForYears(const int &current_year,
+                                   const double &percent_deposit,
+                                   const double &deposit_amount) {
   CalculateDeposit calc_deposit;
-  return calc_deposit.CalculatForYears(current_year, count_days_month,
-                                       percent_deposit, deposit_amount);
+  return calc_deposit.CalculatForYears(current_year, percent_deposit,
+                                       deposit_amount);
 }
 
-bool my::ModelCalc::CheckingForLeapYear(const int &year,
-                                         int &temp_number_days_year) const {
+bool ModelCalc::CheckingForLeapYear(const int &year,
+                                    int &temp_number_days_year) const {
   CalculateDeposit calc_deposit;
   return calc_deposit.CheckingForLeapYear(year, temp_number_days_year);
 }
 
-double my::ModelCalc::CalculatForDayWithoutCapitalization(
-    const int &placement_period, const int &deposit_month,
-    const int &deposit_year, const double &deposit_amount,
-    const double &percent_deposit) {
+double ModelCalc::CalculatForDayWithoutCapitalization(
+    const int &placement_period, const int &deposit_year,
+    const double &deposit_amount, const double &percent_deposit) {
   CalculateDeposit calc_deposit;
   return calc_deposit.CalculatForDayWithoutCapitalization(
-      placement_period, deposit_month, deposit_year, deposit_amount,
-      percent_deposit);
+      placement_period, deposit_year, deposit_amount, percent_deposit);
 }
 
-bool my::ModelCalc::CheckInputNumberFractional(std::string const &str) {
+bool ModelCalc::CheckInputNumberFractional(std::string const &str) {
   int flag_err = false;
   int flag_dot = 0;
 
-  for (int i = 0; i < str.length(); i++) {
+  for (size_t i = 0; i < str.length(); i++) {
     if ((str.data()[i] >= '0' && str.data()[i] <= '9') ||
         str.data()[i] == '.') {
       if (str.data()[i] == '.') {
@@ -128,10 +127,12 @@ bool my::ModelCalc::CheckInputNumberFractional(std::string const &str) {
   return flag_err;
 }
 
-double my::ModelCalc::CalculateSimplePercentage(std::string const &str) {
+double ModelCalc::CalculateSimplePercentage(std::string const &str) {
   double result = 0;
   if (!CheckInputNumberFractional(str)) {
     result = stof(str) / 100;
   }
   return result;
 }
+
+}  // namespace my

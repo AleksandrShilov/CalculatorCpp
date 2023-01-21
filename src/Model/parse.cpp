@@ -1,12 +1,14 @@
 #include "parse.h"
 
-my::Parse::Parse(std::string const &expr)
+namespace my {
+
+Parse::Parse(std::string const &expr)
     : result_(0), err_(0), infix_str_(expr), postfix_str_("") {
   ToPostFix();
 }
 
 // экспоненциальная запись
-void my::Parse::ConversionExponent(std::string &postfix_str, size_t &pos) {
+void Parse::ConversionExponent(std::string &postfix_str, size_t &pos) {
   if (infix_str_[pos] == 'e') {
     postfix_str.push_back(' ');
     postfix_str.push_back('1');
@@ -39,7 +41,7 @@ void my::Parse::ConversionExponent(std::string &postfix_str, size_t &pos) {
   }
 }
 
-void my::Parse::ParseNumber(std::string &postfix_str, size_t &pos) {
+void Parse::ParseNumber(std::string &postfix_str, size_t &pos) {
   if (isdigit(infix_str_[pos])) {
     while (isdigit(infix_str_[pos]) || infix_str_[pos] == '.') {
       postfix_str.push_back(infix_str_[pos]);
@@ -50,7 +52,7 @@ void my::Parse::ParseNumber(std::string &postfix_str, size_t &pos) {
   }
 }
 
-int my::Parse::GetPriority(char const ch) const {
+int Parse::GetPriority(char const ch) const {
   if (ch == '+' || ch == '-' || ch == '~') return 1;
   if (ch == '/' || ch == '*' || ch == 'm') return 2;
   if (ch == '^') return 3;
@@ -60,8 +62,8 @@ int my::Parse::GetPriority(char const ch) const {
   return 0;
 }
 
-void my::Parse::CheckUnaryMinus(char &ch, std::string const &infix_str,
-                                 size_t const &pos) const {
+void Parse::CheckUnaryMinus(char &ch, std::string const &infix_str,
+                            size_t const &pos) const {
   std::string operators = "+-*/^(";
   if (ch == '-' &&
       (pos == 0 || (operators.find(infix_str[pos - 1]) != std::string::npos))) {
@@ -69,8 +71,7 @@ void my::Parse::CheckUnaryMinus(char &ch, std::string const &infix_str,
   }
 }
 
-void my::Parse::ParseOperator(char const ch, std::stack<char> &stack_oper,
-                               size_t const &pos) {
+void Parse::ParseOperator(char const ch, std::stack<char> &stack_oper) {
   if (ch == '+' || ch == '-' || ch == '~' || ch == '*' || ch == '/' ||
       ch == '^') {
     if (stack_oper.size() == 0) {
@@ -89,15 +90,14 @@ void my::Parse::ParseOperator(char const ch, std::stack<char> &stack_oper,
   }
 }
 
-void my::Parse::ParseLeftBracket(char const ch,
-                                  std::stack<char> &stack_oper) const {
+void Parse::ParseLeftBracket(char const ch,
+                             std::stack<char> &stack_oper) const {
   if (ch == '(') {
     stack_oper.push(ch);
   }
 }
 
-void my::Parse::ParseRightBracket(char const ch,
-                                   std::stack<char> &stack_oper) {
+void Parse::ParseRightBracket(char const ch, std::stack<char> &stack_oper) {
   if (ch == ')') {
     while (stack_oper.size() > 0 && stack_oper.top() != '(') {
       postfix_str_.push_back(stack_oper.top());
@@ -108,8 +108,8 @@ void my::Parse::ParseRightBracket(char const ch,
   }
 }
 
-void my::Parse::PushTrigonometric(std::string const &trig,
-                                   std::stack<char> &stack_oper) const {
+void Parse::PushTrigonometric(std::string const &trig,
+                              std::stack<char> &stack_oper) const {
   if (trig.find("acos") != std::string::npos) {
     stack_oper.push('o');
   } else if (trig.find("asin") != std::string::npos) {
@@ -133,8 +133,8 @@ void my::Parse::PushTrigonometric(std::string const &trig,
   }
 }
 
-void my::Parse::ParseTrigonometric(char const ch, std::stack<char> &stack_oper,
-                                    size_t &pos) const {
+void Parse::ParseTrigonometric(char const ch, std::stack<char> &stack_oper,
+                               size_t &pos) const {
   if (ch == 'c' || ch == 's' || ch == 't' || ch == 'a' || ch == 'l' ||
       ch == 'm') {
     std::string trig;
@@ -147,15 +147,14 @@ void my::Parse::ParseTrigonometric(char const ch, std::stack<char> &stack_oper,
   }
 }
 
-void my::Parse::ParseX(char const ch, std::stack<char> &stack_oper,
-                        size_t &pos) {
+void Parse::ParseX(char const ch) {
   if (ch == 'x' || ch == 'X') {
     postfix_str_.push_back(ch);
     postfix_str_.push_back(' ');
   }
 }
 
-void my::Parse::ToPostFix() {
+void Parse::ToPostFix() {
   std::stack<char> stack_oper;
 
   for (size_t i = 0; i < infix_str_.size(); i++) {
@@ -164,8 +163,8 @@ void my::Parse::ToPostFix() {
     ParseLeftBracket(infix_str_[i], stack_oper);
     ParseRightBracket(infix_str_[i], stack_oper);
     CheckUnaryMinus(infix_str_[i], infix_str_, i);
-    ParseOperator(infix_str_[i], stack_oper, i);
-    ParseX(infix_str_[i], stack_oper, i);
+    ParseOperator(infix_str_[i], stack_oper);
+    ParseX(infix_str_[i]);
   }
 
   while (stack_oper.size()) {
@@ -174,3 +173,5 @@ void my::Parse::ToPostFix() {
     stack_oper.pop();
   }
 }
+
+}  // namespace my

@@ -75,10 +75,9 @@ double my::DepositView::CheckInputFractional(QLineEdit *field_ui) {
   return result;
 }
 
-void my::DepositView::CheckingAndChangingDay(int &new_day,
-                                              size_t &curent_month,
-                                              int &new_month, int &current_year,
-                                              int array_year[]) const {
+void my::DepositView::CheckingAndChangingDay(int &new_day, size_t &curent_month,
+                                             int &new_month, int &current_year,
+                                             int array_year[]) const {
   if (ui_->comboBox_frequency_payments->currentText() == "Раз в день") {
     if (new_day > array_year[curent_month]) {
       new_day = 1;
@@ -105,7 +104,7 @@ void my::DepositView::CheckingPeriodType(int &new_day) const {
 }
 
 void my::DepositView::ChangingMonthForRendering(int &new_month,
-                                                 size_t const &j) const {
+                                                size_t const &j) const {
   if (ui_->comboBox_date_form->currentText() == "месяцев" &&
       ui_->comboBox_frequency_payments->currentText() == "Раз в день") {
     new_month = j;
@@ -120,8 +119,8 @@ void my::DepositView::ChangingMonthForRendering(int &new_month,
 }
 
 void my::DepositView::CheckingReplenishment(std::queue<value_add> &q_add_copy,
-                                             int const &j,
-                                             int const &current_year) {
+                                            int const &j,
+                                            int const &current_year) {
   if (q_add_copy.size() == 0) {
     flag_add_ = false;
   }
@@ -135,8 +134,8 @@ void my::DepositView::CheckingReplenishment(std::queue<value_add> &q_add_copy,
 }
 
 void my::DepositView::CheckingWithdrawal(std::queue<value_add> &q_sub_copy,
-                                          int const &j,
-                                          int const &current_year) {
+                                         int const &j,
+                                         int const &current_year) {
   if (q_sub_copy.size() == 0) {
     flag_sub_ = false;
   }
@@ -253,8 +252,8 @@ void my::DepositView::CalculatAccruedInterest(
         if (placement_period_copy_ > 0 && placement_period_copy_ < 31) {
           percent_month =
               controller_deposit_->CalculatForDayWithoutCapitalization(
-                  placement_period_copy_, new_month, current_year,
-                  amount_deposit_, percent_deposit_);
+                  placement_period_copy_, current_year, amount_deposit_,
+                  percent_deposit_);
           accured_amount_ += percent_month;
           amount_deposit_ += percent_month;
         }
@@ -280,8 +279,8 @@ void my::DepositView::CalculatAccruedInterest(
         if (placement_period_copy_ > 0 && placement_period_copy_ < 31) {
           percent_month =
               controller_deposit_->CalculatForDayWithoutCapitalization(
-                  placement_period_copy_, new_month, current_year,
-                  amount_deposit_, percent_deposit_);
+                  placement_period_copy_, current_year, amount_deposit_,
+                  percent_deposit_);
           accured_amount_ += percent_month;
         }
 
@@ -332,8 +331,8 @@ void my::DepositView::TableSettings(double const &copy_time_deposit) const {
 }
 
 void my::DepositView::SettingDateForTable(QDate &dt, int &new_day,
-                                           int &new_month,
-                                           int &current_year) const {
+                                          int &new_month,
+                                          int &current_year) const {
   dt.setDate(ui_->dateEdit->date().year(), ui_->dateEdit->date().month(),
              ui_->dateEdit->date().day());
 

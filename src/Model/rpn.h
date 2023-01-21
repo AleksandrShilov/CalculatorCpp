@@ -52,14 +52,13 @@ class ModelCalc {
                            double const &percent_deposit,
                            double const &deposit_amount);
   // year
-  double CalculatForYears(int const &current_year, int const &count_days_month,
+  double CalculatForYears(int const &current_year,
                           double const &percent_deposit,
                           double const &deposit_amount);
   bool CheckingForLeapYear(int const &year, int &temp_number_days_year) const;
 
   // day
   double CalculatForDayWithoutCapitalization(int const &placement_period,
-                                             int const &deposit_month,
                                              int const &deposit_year,
                                              double const &deposit_amount,
                                              double const &percent_deposit);

@@ -10,6 +10,7 @@ namespace my {
 
 class Parse {
  public:
+  Parse() = delete;
   explicit Parse(std::string const &expr);
   Parse(const Parse &other) = delete;
   Parse &operator=(const Parse &other) = delete;
@@ -27,15 +28,14 @@ class Parse {
   int GetPriority(char const ch) const;
   void CheckUnaryMinus(char &ch, std::string const &infix_str,
                        size_t const &pos) const;
-  void ParseOperator(char const ch, std::stack<char> &stack_oper,
-                     size_t const &pos);
+  void ParseOperator(char const ch, std::stack<char> &stack_oper);
   void ParseLeftBracket(char const ch, std::stack<char> &stack_oper) const;
   void ParseRightBracket(char const ch, std::stack<char> &stack_oper);
   void PushTrigonometric(std::string const &trig,
                          std::stack<char> &stack_oper) const;
   void ParseTrigonometric(char const ch, std::stack<char> &stack_oper,
                           size_t &pos) const;
-  void ParseX(char const ch, std::stack<char> &stack_oper, size_t &pos);
+  void ParseX(char const ch);
   void ToPostFix();
 
  private:

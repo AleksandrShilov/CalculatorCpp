@@ -22,7 +22,7 @@ class Validation {
 
  private:
   int ValidationStr();
-  int ValidationOperators(size_t pos, int const &flag_bracket) const;
+  int ValidationOperators(size_t pos) const;
   int ValidationZero(size_t pos) const;
   int ValidationBracket(size_t pos, int &flag_bracket) const;
   int ValidationDot(size_t pos) const;

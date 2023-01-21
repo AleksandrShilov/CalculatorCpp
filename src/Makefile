@@ -6,14 +6,14 @@ OS=$(shell uname)
 
 ifeq ($(OS), Linux)
 	LEAKS=CK_FORK=no valgrind --leak-check=full --track-origins=yes -s
-	TEST =  -lgtest -lgmock -pthread --coverage
+	TEST =  -lgtest --coverage
 else
 	LEAKS=CK_FORK=no leaks --atExit --
-	TEST =  -lgtest -fsanitize=address -lgmock -pthread --coverage
+	TEST =  -lgtest -fsanitize=address --coverage
 endif
 
 
-all: clean test gcov_report
+all: clean install
 
 
 install: build clean
@@ -26,7 +26,6 @@ build:
 
 
 uninstall:
-	rm -rf $(HOME)/Desktop/Calculator/
 	rm -rf build
 
 
@@ -54,7 +53,7 @@ gcov_report: test
 
 
 test: parse.o validate.o calculate.o rpn.o calculatedeposit.o
-	g++ test.cpp $^ -o test.out -lgtest -lgmock -pthread --coverage 
+	g++ test.cpp $^ -o test.out $(TEST)
 	./test.out
 
 
@@ -92,8 +91,8 @@ leaks:
 
 clang:
 	cp ../materials/linters/.clang-format ./
-	# clang-format -i Controller/* Model/* View/*.cpp View/*.h test.cpp main.cpp
-	clang-format -n Controller/* Model/* View/*.cpp View/*.h test.cpp main.cpp
+	 clang-format -i Controller/* Model/* View/*.cpp View/*.h test.cpp main.cpp
+	#clang-format -n Controller/* Model/* View/*.cpp View/*.h test.cpp main.cpp
 
 
 cppcheck:

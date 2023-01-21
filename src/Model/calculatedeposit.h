@@ -31,11 +31,10 @@ class CalculateDeposit {
   double CalculationByDays(int const &current_year,
                            double const &percent_deposit,
                            double const &deposit_amount);
-  double CalculatForYears(int const &current_year, int const &count_days_month,
+  double CalculatForYears(int const &current_year,
                           double const &percent_deposit,
                           double const &deposit_amount);
   double CalculatForDayWithoutCapitalization(int const &placement_period,
-                                             int const &deposit_month,
                                              int const &deposit_year,
                                              double const &deposit_amount,
                                              double const &percent_deposit);

@@ -434,7 +434,7 @@ TEST(TestDeposit, test_5) {
   double result = 229.50819672131146;
   double deposit = 100000;
   double deposit_result =
-      obj.CalculatForDayWithoutCapitalization(12, 01, 2024, deposit, 7);
+      obj.CalculatForDayWithoutCapitalization(12, 2024, deposit, 7);
   ASSERT_DOUBLE_EQ(result, deposit_result);
 }
 
@@ -461,7 +461,7 @@ TEST(TestDeposit, test_8) {
   my::ModelCalc obj;
   double result = 7000;
   double deposit = 100000;
-  double deposit_result = obj.CalculatForYears(2024, 31, 7, deposit);
+  double deposit_result = obj.CalculatForYears(2024, 7, deposit);
   ASSERT_DOUBLE_EQ(result, deposit_result);
 }
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Calculator_2 VERSION 0.1 LANGUAGES CXX)
+project(Calculator VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -48,31 +48,31 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Calculator_2
+    qt_add_executable(Calculator
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Calculator_2 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET Calculator APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(Calculator_2 SHARED
+        add_library(Calculator SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(Calculator_2
+        add_executable(Calculator
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(Calculator_2 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::PrintSupport)
+target_link_libraries(Calculator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::PrintSupport)
 
-set_target_properties(Calculator_2 PROPERTIES
+set_target_properties(Calculator PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -81,5 +81,5 @@ set_target_properties(Calculator_2 PROPERTIES
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Calculator_2)
+    qt_finalize_executable(Calculator)
 endif()
