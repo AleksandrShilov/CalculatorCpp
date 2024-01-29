@@ -24,6 +24,9 @@ class InputX : public QDialog {
   double on_pushButton_ok_clicked();
 
  private:
+  double convertInputFromString(const QString &input_text);
+
+ private:
   Ui::input_x *ui_;
 };
 

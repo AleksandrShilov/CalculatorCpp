@@ -10,11 +10,11 @@ my::DepositView::DepositView(QWidget *parent)
 
   ui_->lineEdit_label_deposit->setFocus();
 
-  this->resize(640, 600);
-  this->setMinimumHeight(600);
-  this->setMinimumWidth(640);
-  this->setMaximumWidth(640);
-  this->setMaximumHeight(600);
+  resize(640, 600);
+  setMinimumHeight(600);
+  setMinimumWidth(640);
+  setMaximumWidth(640);
+  setMaximumHeight(600);
 }
 
 my::DepositView::~DepositView() { delete ui_; }

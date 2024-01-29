@@ -41,4 +41,5 @@ class CalculateDeposit {
 };
 
 }  // namespace my
+
 #endif  // CALCULATEDEPOSIT_H

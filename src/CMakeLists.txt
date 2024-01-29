@@ -14,8 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets PrintSupport REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets PrintSupport REQUIRED)
 
-set(PROJECT_SOURCES
-        main.cpp
+set(VIEW_SOURCES
         View/mainwindow.cpp
         View/mainwindow.h
         View/mainwindow.ui
@@ -31,6 +30,9 @@ set(PROJECT_SOURCES
         View/deposit.cpp
         View/deposit.h
         View/deposit.ui
+)
+
+set(MODEL_SOURCES
         Model/validate.cpp
         Model/validate.h
         Model/calculate.cpp
@@ -41,34 +43,20 @@ set(PROJECT_SOURCES
         Model/rpn.h
         Model/calculatedeposit.cpp
         Model/calculatedeposit.h
+)
+
+set(CONTROLLER_SOURCES
         Controller/controller.cpp
         Controller/controller.h
+)
+
+set(PROJECT_SOURCES
+        main.cpp
         qcustomplot.cpp
         qcustomplot.h
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(Calculator
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Calculator APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(Calculator SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(Calculator
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
+add_executable(Calculator ${PROJECT_SOURCES} ${CONTROLLER_SOURCES} ${MODEL_SOURCES} ${VIEW_SOURCES})
 
 target_link_libraries(Calculator PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::PrintSupport)
 
@@ -80,6 +68,4 @@ set_target_properties(Calculator PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(Calculator)
-endif()
+

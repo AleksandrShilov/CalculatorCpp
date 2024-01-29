@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
   my::ModelCalc model;
   my::Controller controller(&model);
   my::MainWindow w;
-  w.SetController(&controller);
+  w.setController(&controller);
   w.show();
   return a.exec();
 }

@@ -21,6 +21,8 @@ class CreditCalc : public QDialog {
   CreditCalc(CreditCalc &&other) = delete;
   CreditCalc operator=(CreditCalc &&other) = delete;
   ~CreditCalc();
+
+ public:
   void SetController(my::Controller *c) { controller_ = c; }
 
  private slots:

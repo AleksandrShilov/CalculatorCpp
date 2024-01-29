@@ -25,7 +25,7 @@ class Validation {
   int ValidationOperators(size_t pos) const;
   int ValidationZero(size_t pos) const;
   int ValidationBracket(size_t pos, int &flag_bracket) const;
-  int ValidationDot(size_t pos) const;
+  int ValidationDot(size_t pos);
   int ValidationAsin(size_t &pos) const;
   int ValidationAcos(size_t &pos) const;
   int ValidationAtan(size_t &pos) const;

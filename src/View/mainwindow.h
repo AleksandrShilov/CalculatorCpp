@@ -29,20 +29,17 @@ class MainWindow : public QMainWindow {
   MainWindow(MainWindow &&other) = delete;
   MainWindow operator=(MainWindow &&other) = delete;
   ~MainWindow();
-  void SetController(my::Controller *c) { controller_ = c; }
 
- private:
-  Ui::MainWindow *ui_;
-  my::Controller *controller_;
-  bool flag_pressed_x_ = false;
+ public:
+  void setController(my::Controller *c) { controller_ = c; }
 
  private slots:
-  void Digits();
-  void ArithmeticOperations();
-  void TrigonometricOperations();
-  void BracketDotSymbols();
-  void ModSymbol();
-  void XSymbol();
+  void on_digits();
+  void on_arithmetic_operations();
+  void on_trigonometric_operations();
+  void on_bracket_dot_symbols();
+  void on_mod_symbol();
+  void on_x_symbol();
   void on_pushButton_clear_clicked();
   void on_pushButton_eq_clicked();
   void on_action_ordinary_triggered();
@@ -53,6 +50,13 @@ class MainWindow : public QMainWindow {
   void on_pushButton_deposit_clicked();
   void on_pushButton_clear_del1_clicked();
   void on_pushButton_percent_clicked();
+
+ private:
+  Ui::MainWindow *ui_;
+  my::Controller *controller_;
+  bool flag_pressed_x_ = false;
 };
+
 }  // namespace my
+
 #endif  // MAINWINDOW_H

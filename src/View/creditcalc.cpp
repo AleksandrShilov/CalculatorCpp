@@ -3,13 +3,14 @@
 #include "ui_creditcalc.h"
 
 my::CreditCalc::CreditCalc(QWidget *parent)
-    : QDialog(parent), ui_(new Ui::CreditCalc) {
+    : QDialog(parent), ui_(new Ui::CreditCalc), controller_(nullptr) {
   ui_->setupUi(this);
   ui_->radioButton__type_1->setChecked(true);
-  this->setMinimumHeight(450);
-  this->setMinimumWidth(529);
-  this->setMaximumWidth(529);
-  this->setMaximumHeight(450);
+
+  setMinimumHeight(450);
+  setMinimumWidth(529);
+  setMaximumWidth(529);
+  setMaximumHeight(450);
 }
 
 my::CreditCalc::~CreditCalc() { delete ui_; }
@@ -66,9 +67,10 @@ void my::CreditCalc::RecordDifferTable(double &accrued_inter,
                                        double &amount_credit,
                                        double const &time_credit,
                                        double const &percent_credit) {
-  this->setMinimumWidth(1110);
-  this->setMaximumWidth(1110);
-  this->resize(1110, 450);
+  setMinimumWidth(1110);
+  setMaximumWidth(1110);
+  resize(1110, 450);
+
   accrued_inter = amount_credit;
   double month_pay_percent = 0;
   double first_payment = 0;
@@ -175,10 +177,12 @@ void my::CreditCalc::on_pushButton_credit_go_clicked() {
     } else {
       double month_pay = 0;
       double all_credit = 0;
-      this->setMinimumHeight(450);
-      this->setMinimumWidth(529);
-      this->setMaximumWidth(529);
-      this->setMaximumHeight(450);
+
+      setMinimumHeight(450);
+      setMinimumWidth(529);
+      setMaximumWidth(529);
+      setMaximumHeight(450);
+
       RecordAnnuities(accrued_inter, amount_credit, time_credit, percent_credit,
                       all_credit, month_pay);
     }
@@ -192,9 +196,10 @@ void my::CreditCalc::on_pushButton_credit_clear_clicked() {
   ui_->accrued_interest->setText("");
   ui_->month_payment->setText("");
   ui_->all->setText("");
-  this->setMinimumHeight(450);
-  this->setMinimumWidth(529);
-  this->setMaximumWidth(529);
-  this->setMaximumHeight(450);
-  this->resize(529, 450);
+
+  setMinimumHeight(450);
+  setMinimumWidth(529);
+  setMaximumWidth(529);
+  setMaximumHeight(450);
+  resize(529, 450);
 }

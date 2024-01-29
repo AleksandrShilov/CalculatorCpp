@@ -17,23 +17,28 @@ class Graph : public QDialog {
   Q_OBJECT
 
  public:
-  explicit Graph(QWidget *parent = nullptr, QString function = "");
+  explicit Graph(QWidget *parent = nullptr, const QString &function = "");
   Graph(const Graph &other) = delete;
   Graph &operator=(const Graph &other) = delete;
   Graph(Graph &&other) = delete;
   Graph operator=(Graph &&other) = delete;
   ~Graph();
-  void SetController(my::Controller *c) { controller_ = c; }
+
+ public:
+  void setController(my::Controller *c) { controller_ = c; }
 
  private slots:
   void on_pushButton_clicked();
 
  private:
+  int checkInputText(const QString &x_input, const QString &y_input);
+
+ private:
   Ui::Graph *ui_;
-  double xBegin_, xEnd_, h_, X_, Y_;
   QString function_;
-  my::Controller *controller_;
   QVector<double> x_, y_;
+  my::Controller *controller_;
+  double xBegin_, xEnd_, h_, X_, Y_;
 };
 
 }  // namespace my

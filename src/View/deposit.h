@@ -35,6 +35,8 @@ class DepositView : public QDialog {
   DepositView(DepositView &&other) = delete;
   DepositView operator=(DepositView &&other) = delete;
   ~DepositView();
+
+ public:
   void SetController(my::Controller *c) { controller_deposit_ = c; }
 
  private slots:
@@ -90,5 +92,7 @@ class DepositView : public QDialog {
   std::queue<value_add> q_add_;
   std::queue<value_add> q_sub_;
 };
+
 }  // namespace my
+
 #endif  // SRC_DEPOSITCALC_H_

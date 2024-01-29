@@ -44,4 +44,5 @@ class Calculate {
 };
 
 }  // namespace my
+
 #endif  // PROJECT_CALCULATE_H_

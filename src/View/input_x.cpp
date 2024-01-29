@@ -9,15 +9,19 @@ my::InputX::InputX(QWidget *parent) : QDialog(parent), ui_(new Ui::input_x) {
 my::InputX::~InputX() { delete ui_; }
 
 double my::InputX::on_pushButton_ok_clicked() {
-  QString temp_str_x = ui_->lineEdit_number_input_x->text();
-  double num_input_x = 0;
+  QString input_text = ui_->lineEdit_number_input_x->text();
+  return convertInputFromString(input_text);
+}
+
+double my::InputX::convertInputFromString(const QString &input_text) {
+  const QChar *input_char = input_text.data();
   int flag_err = 0;
   int flag_dot = 0;
 
-  for (int i = 0; i < temp_str_x.length() - 1; i++) {
-    if ((temp_str_x.data()[i] >= '0' && temp_str_x.data()[i] <= '9') ||
-        temp_str_x.data()[i] == '.') {
-      if (temp_str_x.data()[i] == '.') {
+  for (int i = 0; i < input_text.length() - 1; ++i) {
+    if ((input_char[i] >= '0' && input_char[i] <= '9') ||
+        input_char[i] == '.') {
+      if (input_char[i] == '.') {
         flag_dot++;
       }
 
@@ -31,8 +35,9 @@ double my::InputX::on_pushButton_ok_clicked() {
     }
   }
 
+  double num_input_x = 0;
   if (!flag_err) {
-    num_input_x = temp_str_x.toDouble();
+    num_input_x = input_text.toDouble();
     close();
   } else {
     ui_->lineEdit_number_input_x->setText("");

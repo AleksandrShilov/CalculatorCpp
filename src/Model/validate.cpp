@@ -90,15 +90,15 @@ int Validation::ValidationBracket(size_t pos, int &flag_bracket) const {
   return err;
 }
 
-int Validation::ValidationDot(size_t pos) const {
-  if (infix_str_[pos] == 46) {
-    pos--;
-    if (!(infix_str_[pos] > 47 && infix_str_[pos] < 58)) {
+int Validation::ValidationDot(size_t pos) {
+  if (infix_str_[pos] == '.') {
+    --pos;
+    if (!(infix_str_[pos] >= '0' && infix_str_[pos] <= '9')) {
       return 1;
     }
-    pos++;
-    pos++;
-    if (!(infix_str_[pos] > 47 && infix_str_[pos] < 58)) {
+    ++pos;
+    ++pos;
+    if (!(infix_str_[pos] >= '0' && infix_str_[pos] <= '9')) {
       return 1;
     }
   }
@@ -274,52 +274,44 @@ int Validation::ValidationTrigonometric(size_t &pos) const {
 }
 
 int Validation::ValidationStr() {
-  int flag_bracket = 0;
   int result = 0;
+  int flag_bracket = 0;
 
-  for (size_t i = 0; i < infix_str_.size(); i++) {
-    int flag_trigonometric, flag_operators, flag_zero, flag_dot,
-        flag_bracket_err;
-    flag_operators = ValidationOperators(i);
-    flag_zero = ValidationZero(i);
-    flag_bracket_err = ValidationBracket(i, flag_bracket);
-    flag_dot = ValidationDot(i);
-    flag_trigonometric = ValidationTrigonometric(i);
-
-    if (flag_operators) {
+  for (size_t i = 0; i < infix_str_.size(); ++i) {
+    if (ValidationOperators(i)) {
       error_ = "The operator was entered incorrectly!";
-      result++;
+      ++result;
       break;
     }
 
-    if (flag_zero) {
+    if (ValidationZero(i)) {
       error_ = "It is not desirable to divide by zero :)";
-      result++;
+      ++result;
       break;
     }
 
-    if (flag_bracket_err) {
+    if (ValidationBracket(i, flag_bracket)) {
       error_ = "The bracket and operators was entered incorrectly!";
-      result++;
+      ++result;
       break;
     }
 
-    if (flag_dot) {
+    if (ValidationDot(i)) {
       error_ = "The point was entered incorrectly!";
-      result++;
+      ++result;
       break;
     }
 
-    if (flag_trigonometric) {
+    if (ValidationTrigonometric(i)) {
       error_ = "The trigonometric function is incorrectly entered!";
-      result++;
+      ++result;
       break;
     }
   }
 
   if (flag_bracket) {
     error_ = "The bracket was entered incorrectly!";
-    result++;
+    ++result;
   }
 
   return result;

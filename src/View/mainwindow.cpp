@@ -3,79 +3,89 @@
 #include "./ui_mainwindow.h"
 
 my::MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui_(new Ui::MainWindow) {
+    : QMainWindow(parent), ui_(new Ui::MainWindow), flag_pressed_x_(false) {
   ui_->setupUi(this);
 
-  this->setMaximumWidth(325);
-  this->setMinimumWidth(325);
+  setMaximumWidth(325);
+  setMinimumWidth(325);
 
-  this->setMinimumHeight(416);
-  this->setMaximumHeight(416);
+  setMinimumHeight(416);
+  setMaximumHeight(416);
 
   // digits
-
-  connect(ui_->pushButton_0, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_1, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_2, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_3, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_4, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_5, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_6, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_7, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_8, &QPushButton::clicked, this, &MainWindow::Digits);
-  connect(ui_->pushButton_9, &QPushButton::clicked, this, &MainWindow::Digits);
+  connect(ui_->pushButton_0, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_1, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_2, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_3, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_4, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_5, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_6, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_7, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_8, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
+  connect(ui_->pushButton_9, &QPushButton::clicked, this,
+          &MainWindow::on_digits);
 
   // Arithmetic
   connect(ui_->pushButton_sum, &QPushButton::clicked, this,
-          &MainWindow::ArithmeticOperations);
+          &MainWindow::on_arithmetic_operations);
   connect(ui_->pushButton_sub, &QPushButton::clicked, this,
-          &MainWindow::ArithmeticOperations);
+          &MainWindow::on_arithmetic_operations);
   connect(ui_->pushButton_mult, &QPushButton::clicked, this,
-          &MainWindow::ArithmeticOperations);
+          &MainWindow::on_arithmetic_operations);
   connect(ui_->pushButton_div, &QPushButton::clicked, this,
-          &MainWindow::ArithmeticOperations);
+          &MainWindow::on_arithmetic_operations);
   connect(ui_->pushButton_pow, &QPushButton::clicked, this,
-          &MainWindow::ArithmeticOperations);
+          &MainWindow::on_arithmetic_operations);
 
   // Trigonometric
   connect(ui_->pushButton_cos, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_sin, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_tan, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_acos, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_asin, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_atan, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_ln, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_log, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
   connect(ui_->pushButton_sqrt, &QPushButton::clicked, this,
-          &MainWindow::TrigonometricOperations);
+          &MainWindow::on_trigonometric_operations);
 
   // bracket and dot
   connect(ui_->pushButton_bracket_l, &QPushButton::clicked, this,
-          &MainWindow::BracketDotSymbols);
+          &MainWindow::on_bracket_dot_symbols);
   connect(ui_->pushButton_bracket_r, &QPushButton::clicked, this,
-          &MainWindow::BracketDotSymbols);
+          &MainWindow::on_bracket_dot_symbols);
   connect(ui_->pushButton_dot, &QPushButton::clicked, this,
-          &MainWindow::BracketDotSymbols);
+          &MainWindow::on_bracket_dot_symbols);
 
   // mod
   connect(ui_->pushButton_mod, &QPushButton::clicked, this,
-          &MainWindow::ModSymbol);
+          &MainWindow::on_mod_symbol);
 
   // x
-  connect(ui_->pushButton_x, &QPushButton::clicked, this, &MainWindow::XSymbol);
+  connect(ui_->pushButton_x, &QPushButton::clicked, this,
+          &MainWindow::on_x_symbol);
 }
 
 my::MainWindow::~MainWindow() { delete ui_; }
 
-void my::MainWindow::Digits() {
+void my::MainWindow::on_digits() {
   QPushButton *button = dynamic_cast<QPushButton *>(sender());
   QString new_str = ui_->str_infix->toPlainText();
   if (ui_->str_infix->toPlainText() == "0") {
@@ -86,7 +96,7 @@ void my::MainWindow::Digits() {
   ui_->str_infix->setText(new_str);
 }
 
-void my::MainWindow::ArithmeticOperations() {
+void my::MainWindow::on_arithmetic_operations() {
   QPushButton *button = dynamic_cast<QPushButton *>(sender());
 
   if (button->text() == "+") {
@@ -102,7 +112,7 @@ void my::MainWindow::ArithmeticOperations() {
   }
 }
 
-void my::MainWindow::TrigonometricOperations() {
+void my::MainWindow::on_trigonometric_operations() {
   QPushButton *button = dynamic_cast<QPushButton *>(sender());
   if (ui_->str_infix->toPlainText() == "0" && button->text() != "") {
     ui_->str_infix->setText(button->text() + "(");
@@ -112,7 +122,7 @@ void my::MainWindow::TrigonometricOperations() {
   }
 }
 
-void my::MainWindow::BracketDotSymbols() {
+void my::MainWindow::on_bracket_dot_symbols() {
   QPushButton *button = dynamic_cast<QPushButton *>(sender());
 
   if (ui_->str_infix->toPlainText() == "0") {
@@ -134,7 +144,7 @@ void my::MainWindow::BracketDotSymbols() {
   }
 }
 
-void my::MainWindow::ModSymbol() {
+void my::MainWindow::on_mod_symbol() {
   QPushButton *button = dynamic_cast<QPushButton *>(sender());
   if (ui_->str_infix->toPlainText() == "0" && button->text() != "") {
     ui_->str_infix->setText(button->text());
@@ -143,7 +153,7 @@ void my::MainWindow::ModSymbol() {
   }
 }
 
-void my::MainWindow::XSymbol() {
+void my::MainWindow::on_x_symbol() {
   QPushButton *button = dynamic_cast<QPushButton *>(sender());
   QString new_str = ui_->str_infix->toPlainText();
   if (ui_->str_infix->toPlainText() == "0") {
@@ -206,7 +216,7 @@ void my::MainWindow::on_pushButton_graph_clicked() {
 
   if (label.length() <= 255) {
     my::Graph graph(nullptr, label);
-    graph.SetController(controller_);
+    graph.setController(controller_);
     graph.setModal(true);
     graph.exec();
   }
